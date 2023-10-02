@@ -1,43 +1,24 @@
-#include <iostream>
-#include "Vec3.h"
-#include "Color.h"
-#include "Ray.h"
+#include "Utility.h"
 
+#include "Color.h"
+#include "Hittable.h"
+#include "HittableList.h"
+#include "Sphere.h"
+
+#include <iostream>
 //Todo : Fix progress bar.
 
-double HitSphere(const Point& center, double radius, const Ray& r){
+Color RayColor(const Ray& r, const Hittable& world){
 
-    //Sphere equation : x² + y² + z² = r² is on sphere, < is inside, > is outside.
-    //We solve this by putting this in the vector form.
-
-    Vec3 oc = r.Origin() - center; //Arbitrary point to center the sphere at.
-
-    auto a = Dot(r.Direction(), r.Direction());
-    auto b = 2.0 * Dot(oc, r.Direction()); //is that commutative ? - it seems
-    auto c = Dot(oc, oc) - (radius * radius);
-    auto discriminant = b*b - 4*a*c;
-
-    //Not on point
-    if (discriminant < 0){
-        return -1.0;
-    } else {
-        return (-b - sqrt(discriminant) / (2.0 * a));
-    }
-}
-
-Color RayColor(const Ray& r){
-
-    auto t = HitSphere(Point(0, 0, -1), 0.5, r);
-
-    if (t > 0.0){
-        Vec3 N = Normalize(r.At(t) - Vec3(0, 0,-1)); //Direction from the surface hit point to the center.
-        return 0.5 *Color(N.x() + 1, N.y() + 1, N.z() + 1);
+    HitInfo hit;
+    if (world.Hit(r, 0, infinity, hit)){
+        return 0.5 * (hit.normal + Color(1));
     }
 
 
     Vec3 unitDirection = Normalize(r.Direction());
 
-    t = 0.5 * (unitDirection.y() + 1.0); //Remap coordinate to [0, 1] and use as t for lerp.
+    auto t = 0.5 * (unitDirection.y() + 1.0); //Remap coordinate to [0, 1] and use as t for lerp.
 
     //Lerp : blenderValue = (1 - a) * startValue + a * endValue - SkyGradient
     return Color (1.0 - t) * Color(1.0) + t * Color(0.5, 0.7, 1.0);
@@ -57,6 +38,14 @@ int main (){
     //Virtual viewport - The viewport withint our ray will pass through 
     auto viewportHeight = 2.0; // Arbitrary
     auto viewportWidth = viewportHeight * (static_cast<double>(imgWidth)/ imgHeight); //Since the ratio is an approximation, we recompute it here with reals values.
+
+    //World
+    HittableList world;
+    world.Add(make_shared<Sphere>(Point(0, 0, -1), 0.5));
+    world.Add(make_shared<Sphere>(Point(0, -100.5, -1), 100)); //Green
+    world.Add(make_shared<Sphere>(Point(0, 100.5, -1), 100)); //Green
+    world.Add(make_shared<Sphere>(Point(100.5, 0, -1), 100)); //Green
+    world.Add(make_shared<Sphere>(Point(-100.5, 0, -1), 100)); //Green
 
     //Camera
     auto focalLength = 1.0; // Distance between eye position (camera) and the viewport. They are orthogonal.
@@ -89,7 +78,7 @@ int main (){
             Ray ray(cameraCenter, rayDirection);
 
 
-            Color pixelColor = RayColor(ray);
+            Color pixelColor = RayColor(ray, world);
             WriteColor(std::cout, pixelColor);
         }
     }

@@ -15,6 +15,7 @@ public:
 
     double aspectRatio = 1.0;
     int imgWidth = 100;
+    int samplesPerPixel = 10;
 
     void Render(const Hittable& world){
         Init();
@@ -30,12 +31,14 @@ public:
 
             for (int i = 0; i < imgWidth; ++i){
                 
-                auto pixelCenteredPos = pixel00Pos + (i * pixelDeltaU) + (j * pixelDeltaV);
-                auto rayDirection = pixelCenteredPos - center; //Not normalized, but it's 1 for the moment
-                Ray ray(center, rayDirection);
+                Color pixelColor = Color(0);
 
-                Color pixelColor = RayColor(ray, world);
-                WriteColor(std::cout, pixelColor);
+                for (int sample = 0; sample < samplesPerPixel; ++sample){
+                    Ray ray = GetRay(i, j);
+                    pixelColor += RayColor(ray, world);    
+                }
+
+                WriteColor(std::cout, pixelColor, samplesPerPixel);
             }
         }
 
@@ -88,5 +91,24 @@ private:
         auto t = 0.5 * (unitDirection.y() + 1.0); //Remap coordinate to [0, 1] and use as t for lerp.
         //Lerp : blenderValue = (1 - a) * startValue + a * endValue - SkyGradient
         return Color (1.0 - t) * Color(1.0) + t * Color(0.5, 0.7, 1.0);
+    }
+
+    Ray GetRay(int i, int j) const{
+        //Get a randomly sampled camera ray forthe pixel at location [i, j]
+
+
+        auto pixelCenteredPos = pixel00Pos + (i * pixelDeltaU) + (j * pixelDeltaV);
+        auto pixelSample =  pixelCenteredPos + PixelSampleSquare();
+
+        auto rayOrigin = center;
+        auto rayDirection = pixelSample - rayOrigin;
+        Ray ray(rayOrigin, rayDirection);
+    }
+
+    Vec3 PixelSampleSquare() const{
+        //Return a random point in the square surrounding a pixel centerly sampled.
+        auto px = -0.5 + RandomDouble01();
+        auto py = -0.5 + RandomDouble01();
+        return (px * pixelDeltaU) + (py * pixelDeltaV);
     }
 };

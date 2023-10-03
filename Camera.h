@@ -83,7 +83,8 @@ private:
 
         HitInfo hit;
         if (world.Hit(r, Interval(0, infinity), hit)){
-            return 0.5 * (hit.normal + Color(1));
+            Vec3 rayBounceDir = RandomOnHemisphere(hit.normal);
+            return 0.5 * RayColor(Ray(hit.p, rayBounceDir), world);
         }
 
         Vec3 unitDirection = Normalize(r.Direction());

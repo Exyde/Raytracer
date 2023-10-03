@@ -4,8 +4,8 @@
 #include <iostream>
 
 using std::sqrt;
-
-//Aliases for Vec3 ! - Might refactor this, or implement vec4 later.
+double RandomDouble01();
+double RandomDouble(double min, double max);
 
 class Vec3{
 
@@ -37,7 +37,14 @@ public:
     double Length() const;
     double LengthSquared() const;
 
-    
+    static Vec3 Random(){
+        return Vec3(RandomDouble01(), RandomDouble01(), RandomDouble01());
+    }
+
+    static Vec3 Random(double min, double max){
+        return Vec3(RandomDouble(min, max), RandomDouble(min, max), RandomDouble(min, max));
+    }
+
 
 public:
     double e[3]; //element
@@ -88,4 +95,27 @@ inline Vec3 Cross(const Vec3 &a, const Vec3 &b){
 
 inline Vec3 Normalize(Vec3 v){
     return v / v.Length();
+}
+
+inline Vec3 RandomInUnitSphere(){
+    while(true){//Rejection method
+        auto p = Vec3::Random();
+        if (p.LengthSquared() < 1){
+            return p;
+        }
+    };
+}
+
+inline Vec3 RandomOnUnitSphere(){
+    return Normalize(RandomInUnitSphere());
+}
+
+inline Vec3 RandomOnHemisphere(const Vec3& normal){
+    Vec3 point = RandomOnUnitSphere();
+
+    if (Dot(point,normal) > 0.0){
+        return point;
+    } else{
+        return -point;
+    }
 }

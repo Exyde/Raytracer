@@ -11,7 +11,7 @@
 Color RayColor(const Ray& r, const Hittable& world){
 
     HitInfo hit;
-    if (world.Hit(r, 0, infinity, hit)){
+    if (world.Hit(r, Interval(0, infinity), hit)){
         return 0.5 * (hit.normal + Color(1));
     }
 
@@ -43,9 +43,12 @@ int main (){
     HittableList world;
     world.Add(make_shared<Sphere>(Point(0, 0, -1), 0.5));
     world.Add(make_shared<Sphere>(Point(0, -100.5, -1), 100)); //Green
-    world.Add(make_shared<Sphere>(Point(0, 100.5, -1), 100)); //Green
-    world.Add(make_shared<Sphere>(Point(100.5, 0, -1), 100)); //Green
-    world.Add(make_shared<Sphere>(Point(-100.5, 0, -1), 100)); //Green
+    
+    /*
+    world.Add(make_shared<Sphere>(Point(0, 100.5, -1), 100)); //UP
+    world.Add(make_shared<Sphere>(Point(100.5, 0, -1), 100)); //LEFT
+    world.Add(make_shared<Sphere>(Point(-100.5, 0, -1), 100)); //DOWN
+    */
 
     //Camera
     auto focalLength = 1.0; // Distance between eye position (camera) and the viewport. They are orthogonal.
@@ -69,14 +72,14 @@ int main (){
 
     for (int j = 0; j < imgHeight; ++j){
 
-        std::cerr << "Progress : " << ((j - imgHeight)) / (double)imgHeight * 100.0<<  "%\n" << std::flush;
+        double percent  = j + 1;
+        std::cerr << "Progress : " << percent <<  "/" << imgHeight << "\n" << std::flush;
 
         for (int i = 0; i < imgWidth; ++i){
             
             auto pixelCenteredPos = pixel00Pos + (i * pixelDeltaU) + (j * pixelDeltaV);
             auto rayDirection = pixelCenteredPos - cameraCenter; //Not normalized, but it's 1 for the moment
             Ray ray(cameraCenter, rayDirection);
-
 
             Color pixelColor = RayColor(ray, world);
             WriteColor(std::cout, pixelColor);

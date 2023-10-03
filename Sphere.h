@@ -8,7 +8,7 @@ class Sphere : public Hittable{
 public:
     Sphere(Point _center, double _radius) : center(_center), radius(_radius) {}
 
-    bool Hit(const Ray& r, double tMin, double tMax, HitInfo& info) const override{
+    bool Hit(const Ray& r, Interval tRange, HitInfo& info) const override{
 
         Vec3 oc = r.Origin() - center; //Arbitrary point to center the sphere at.
 
@@ -26,9 +26,9 @@ public:
         //Find the nearest root in acceptable range.
         auto root = (-half_b - sqrtd) / a; //Well, that's the distance to the point?
 
-        if (root <= tMin || tMax <= root){
+        if (!tRange.Surrounds(root)){
             root = (-half_b + sqrtd) / a;
-            if (root <= tMin || tMax <= root){
+            if (!tRange.Surrounds(root)){
                 return false;
             }
         }

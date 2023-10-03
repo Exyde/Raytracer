@@ -19,6 +19,7 @@ inline double DegToRad(double degrees){
 }
 
 //Headers
+#include "Interval.h" 
 #include "Ray.h"
 #include "Vec3.h"
 

@@ -102,7 +102,7 @@ private:
 
         auto rayOrigin = center;
         auto rayDirection = pixelSample - rayOrigin;
-        Ray ray(rayOrigin, rayDirection);
+        return Ray(rayOrigin, rayDirection);
     }
 
     Vec3 PixelSampleSquare() const{

@@ -91,7 +91,8 @@ private:
         if (world.Hit(r, Interval(0.001, infinity), hit)){ //This 0.001 tolerance is fixing "Shadow Acne" problem. Due to floating point precision
         //we might be inside the surface when we scater the next ray, and so we hit it from inside, causing some buggy artefacts.
         //So we add tolerance.
-            Vec3 rayBounceDir = RandomOnHemisphere(hit.normal);
+            //Vec3 rayBounceDir = RandomOnHemisphere(hit.normal); Basic Diffuse
+            Vec3 rayBounceDir = hit.normal + RandomOnUnitSphere(); //Lambertian Diffuse
             return 0.5 * RayColor(Ray(hit.p, rayBounceDir), depth -1, world);
         }
 

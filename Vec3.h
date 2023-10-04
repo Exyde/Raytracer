@@ -106,6 +106,7 @@ inline Vec3 RandomInUnitSphere(){
     };
 }
 
+//In the book : random_unit_vector()
 inline Vec3 RandomOnUnitSphere(){
     return Normalize(RandomInUnitSphere());
 }

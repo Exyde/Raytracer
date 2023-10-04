@@ -3,6 +3,14 @@
 #include "Vec3.h"
 #include <iostream>
 
+inline double LinearToGamma(double linearComponent){
+    return sqrt(linearComponent);
+}
+
+inline Color LinearToGamma(Color color){
+    return Color(LinearToGamma(color.x()),LinearToGamma(color.y()), LinearToGamma(color.z()));
+}
+
 void WriteColor(std::ostream &out, Color pixelColor, int samplesPerPixel){
 
     auto r = pixelColor.x();
@@ -13,6 +21,12 @@ void WriteColor(std::ostream &out, Color pixelColor, int samplesPerPixel){
     r *= scale;
     g *= scale;
     b *= scale;
+
+    //Applying linear to gamma
+    r = LinearToGamma(r);
+    g = LinearToGamma(g);
+    b = LinearToGamma(b);
+
 
     static const Interval intensity(0.000, 0.999);
 

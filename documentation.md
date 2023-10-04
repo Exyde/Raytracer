@@ -44,3 +44,13 @@
 - We'll use a simple version : gamma2.
   - from Gamma to Linear : we use power of 2 on our transform
   - from Linear to Gamma : 1/gamma, in our case just the square-root.
+
+### Metallic
+- Reflected Metal Ray : v + 2b from the hit point, v beeing the incoming vec
+
+### Dielectrics
+- Water, glass, diamond... Thing with transparency, I guess
+- Light splits in **refracted** and **reflected**
+  - We'll randomly choose what happens to an incoming ray
+- **Snell's Law**
+  - Honnestly too much math here for now, get back later (**TODO**)

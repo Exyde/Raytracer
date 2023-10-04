@@ -134,3 +134,10 @@ inline Vec3 RandomOnHemisphere(const Vec3& normal){
 inline Vec3 Reflect(const Vec3& vec, const Vec3 normal){
     return vec - 2 * Dot(vec, normal) * normal; //Metal reflection : v + 2b (Figure 15)
 }
+
+inline Vec3 Refract(const Vec3& uv, const Vec3& n, double EtaiOverEtat){
+    auto cosTheta = fmin(Dot(-uv, n), 1.0);
+    Vec3 rOutPerp = EtaiOverEtat * (uv + cosTheta * n);
+    Vec3 rOutParallel = -sqrt (fabs(1.0 - rOutPerp.LengthSquared())) * n;
+    return rOutPerp + rOutParallel;
+}

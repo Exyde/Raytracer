@@ -4,6 +4,7 @@
 
 #include "Color.h"
 #include "Hittable.h"
+#include "Material.h"
 
 #include <iostream>
 
@@ -88,12 +89,18 @@ private:
         }
 
         HitInfo hit;
+
         if (world.Hit(r, Interval(0.001, infinity), hit)){ //This 0.001 tolerance is fixing "Shadow Acne" problem. Due to floating point precision
         //we might be inside the surface when we scater the next ray, and so we hit it from inside, causing some buggy artefacts.
         //So we add tolerance.
-            //Vec3 rayBounceDir = RandomOnHemisphere(hit.normal); Basic Diffuse
-            Vec3 rayBounceDir = hit.normal + RandomOnUnitSphere(); //Lambertian Diffuse
-            return 0.5 * RayColor(Ray(hit.p, rayBounceDir), depth -1, world);
+            Ray scattered;
+            Color attenuation;
+
+            if(hit.mat->Scatter(r, hit, attenuation, scattered)){
+                return attenuation * RayColor(scattered, depth -1, world);
+            }
+
+            return Color(0, 0,0);
         }
 
         Vec3 unitDirection = Normalize(r.Direction());

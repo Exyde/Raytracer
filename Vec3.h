@@ -45,6 +45,14 @@ public:
         return Vec3(RandomDouble(min, max), RandomDouble(min, max), RandomDouble(min, max));
     }
 
+    bool NearZero() const{
+        //Return true is the vec3 is close to zero in all dimensions
+        auto s = 1e-8;
+        return (fabs(e[0] < s) && fabs(e[1] < s) && fabs(e[2] < s));
+    }
+
+
+
 
 public:
     double e[3]; //element
@@ -93,6 +101,7 @@ inline Vec3 Cross(const Vec3 &a, const Vec3 &b){
     );
 }
 
+//In the book : unit_vector()
 inline Vec3 Normalize(Vec3 v){
     return v / v.Length();
 }
@@ -119,4 +128,9 @@ inline Vec3 RandomOnHemisphere(const Vec3& normal){
     } else{
         return -point;
     }
+}
+
+
+inline Vec3 Reflect(const Vec3& vec, const Vec3 normal){
+    return vec - 2 * Dot(vec, normal) * normal; //Metal reflection : v + 2b (Figure 15)
 }

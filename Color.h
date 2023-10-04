@@ -11,6 +11,7 @@ inline Color LinearToGamma(Color color){
     return Color(LinearToGamma(color.x()),LinearToGamma(color.y()), LinearToGamma(color.z()));
 }
 
+
 void WriteColor(std::ostream &out, Color pixelColor, int samplesPerPixel){
 
     auto r = pixelColor.x();

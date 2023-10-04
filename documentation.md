@@ -5,6 +5,13 @@
 - Research how to pass argument to command line, specify executable name, and so on (more on g++)
 - Virtual constructors , virtual methods ?
 
+# Explore
+- Add more Materials
+- Add Lighting
+- Add Camera Controls ? But nothing is realtime really here => Turn it Realtime ? Destroy my pc.
+  - But it can also be a very low res realtime renderer.
+
+
 # Notes
 
 ## Key Insights
@@ -12,6 +19,8 @@
 - Cult of done. Go through, end it. It's still a thing.
 - Off internet help FOCUS a LOT ! Get your source, and isolate.
 - **Dot Product** and **Cross Product** are really **CORE KNOWLEDGE** - Move this to Obsidian and build a shared mental map ?
+- If you redo a project like this, comment everything more.
+  - Also, ensure you understand deeply EVERYTHING you write. Like, you could explain it to someone.
 
 ## Diffuse Material (or Matte)
 - Don't emit light

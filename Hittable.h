@@ -5,14 +5,15 @@
 class Material;
 
 class HitInfo{
-public: 
+public:
+
     Point p;
     Vec3 normal;
     double t;
     bool frontFace;
     shared_ptr<Material> mat;
 
-    //HitInfo(): p(Vec3(0)), normal(Vec3(0)), t(0), frontFace(false), mat(nullptr){}
+    HitInfo(): p(Vec3(0)), normal(Vec3(0)), t(0), frontFace(false), mat(nullptr){}
 
     void SetFaceNormal(const Ray& r, const Vec3& outwardNormal){
 

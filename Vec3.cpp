@@ -1,7 +1,5 @@
 #include "Vec3.h"
 
-//Todo : Division by 0
-
 Vec3::Vec3() : e{0, 0, 0} {}; //Default
 Vec3::Vec3(double x, double y, double z) : e{x, y, z}{}
 Vec3::Vec3(double s): e{s, s, s}{}

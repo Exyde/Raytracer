@@ -13,9 +13,10 @@ public:
 
     Camera() : imgHeight(imgWidth), center(Vec3(0)), pixel00Pos(Vec3(0)), pixelDeltaU(1), pixelDeltaV(1) {}
 
-    double aspectRatio = 1.0;
-    int imgWidth = 100;
-    int samplesPerPixel = 10;
+    double aspectRatio = 1.0;           // Aspect atio
+    int imgWidth = 100;                 // Image width
+    int samplesPerPixel = 10;           // Count of samples for each pixel
+    int maxDepth = 10;                  // How many ray bounces
 
     void Render(const Hittable& world){
         Init();
@@ -35,7 +36,7 @@ public:
 
                 for (int sample = 0; sample < samplesPerPixel; ++sample){
                     Ray ray = GetRay(i, j);
-                    pixelColor += RayColor(ray, world);    
+                    pixelColor += RayColor(ray, maxDepth, world);    
                 }
 
                 WriteColor(std::cout, pixelColor, samplesPerPixel);
@@ -79,12 +80,19 @@ private:
         pixel00Pos = viewportUpperLeft + 0.5 * (pixelDeltaU + pixelDeltaV); //Half of it, we want our pixel centered.
     }
 
-    Color RayColor(const Ray& r, const Hittable& world){
+    Color RayColor(const Ray& r, int depth,const Hittable& world){
+
+        //If we exceed the limit, we don't call RayColor recursively anymore, and stop gathering light.
+        if (depth <= 0){
+            return Color(0);
+        }
 
         HitInfo hit;
-        if (world.Hit(r, Interval(0, infinity), hit)){
+        if (world.Hit(r, Interval(0.001, infinity), hit)){ //This 0.001 tolerance is fixing "Shadow Acne" problem. Due to floating point precision
+        //we might be inside the surface when we scater the next ray, and so we hit it from inside, causing some buggy artefacts.
+        //So we add tolerance.
             Vec3 rayBounceDir = RandomOnHemisphere(hit.normal);
-            return 0.5 * RayColor(Ray(hit.p, rayBounceDir), world);
+            return 0.5 * RayColor(Ray(hit.p, rayBounceDir), depth -1, world);
         }
 
         Vec3 unitDirection = Normalize(r.Direction());

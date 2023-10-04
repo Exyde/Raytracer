@@ -11,7 +11,8 @@ int main (){
     cam.aspectRatio = 16.0 / 9.0;
     cam.imgWidth = 400;
     cam.samplesPerPixel = 100; //Anti-aliasing
-
+    cam.maxDepth = 50;
+    
     //World
     HittableList world;
     world.Add(make_shared<Sphere>(Point(0, 0, -1), 0.5));

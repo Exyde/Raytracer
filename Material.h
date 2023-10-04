@@ -40,16 +40,17 @@ class Metallic : public Material{
 
 public:
 
-    Metallic(Color color) : albedo(color) {}
+    Metallic(Color color, double fuzzRadius) : albedo(color), fuzz(fuzzRadius < 1 ? fuzzRadius : 1) {}
 
     bool Scatter(const Ray& in, const HitInfo& hit, Color& attenuation, Ray& scattered) const override{
 
         Vec3 reflected = Reflect(Normalize(in.Direction()), hit.normal);
-        scattered = Ray(hit.p, reflected);
+        scattered = Ray(hit.p, reflected + fuzz * RandomOnUnitSphere());
         attenuation = albedo;
-        return true;
+        return (Dot(scattered.Direction(), hit.normal) > 0);
     }
     
 private:
     Color albedo;
+    double fuzz;
 };

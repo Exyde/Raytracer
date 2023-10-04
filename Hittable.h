@@ -1,6 +1,8 @@
 #pragma once
 
-#include "Ray.h"
+#include "Utility.h"
+
+class Material;
 
 class HitInfo{
 public: 
@@ -8,8 +10,9 @@ public:
     Vec3 normal;
     double t;
     bool frontFace;
+    shared_ptr<Material> mat;
 
-    HitInfo(): p(Vec3(0)), normal(Vec3(0)), t(0), frontFace(false){}
+    //HitInfo(): p(Vec3(0)), normal(Vec3(0)), t(0), frontFace(false), mat(nullptr){}
 
     void SetFaceNormal(const Ray& r, const Vec3& outwardNormal){
 

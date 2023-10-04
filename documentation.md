@@ -29,3 +29,9 @@
 
 
 ### Linear and Gamme Color Space
+- Most program assume that an image is *Gamma Corrected* before beeing written to a file.
+- This means values in [0,1] have some transformation applied before beeing stored as bytes.
+- Untransformed images are in *Linear Space*, whereas transformed one are in *Gamma Space*
+- We'll use a simple version : gamma2.
+  - from Gamma to Linear : we use power of 2 on our transform
+  - from Linear to Gamma : 1/gamma, in our case just the square-root.

@@ -19,6 +19,8 @@ public:
     int samplesPerPixel = 10;           // Count of samples for each pixel
     int maxDepth = 10;                  // How many ray bounces
 
+    double vFOV = 90;
+
     void Render(const Hittable& world){
         Init();
 
@@ -60,17 +62,24 @@ private:
         imgHeight = static_cast<int>(imgWidth / aspectRatio);
         imgHeight = ( imgHeight < 1  ) ? 1 : imgHeight;
 
-        //Virtual viewport - The viewport withint our ray will pass through 
-        auto viewportHeight = 2.0; // Arbitrary
-        auto viewportWidth = viewportHeight * (static_cast<double>(imgWidth)/ imgHeight); //Since the ratio is an approximation, we recompute it here with reals values.
-
         //Camera
         auto focalLength = 1.0; // Distance between eye position (camera) and the viewport. They are orthogonal.
         auto cameraCenter = Point(0, 0, 0);
 
+
+        //Virtual viewport - The viewport withint our ray will pass through 
+        //FOV
+        auto theta = DegToRad(vFOV);
+        auto h = tan(theta/2); //Frustrum half height on viewport
+        auto viewportHeight = 2 * h * focalLength;
+        auto viewportWidth = viewportHeight * (static_cast<double>(imgWidth)/ imgHeight); //Since the ratio is an approximation, we recompute it here with reals values.
+
+
         //Kind of UV's to move along the viewport - Moves only on edges ?
         auto viewportU = Vec3(viewportWidth, 0 , 0); //That's the length, and we might lerp from 0 to length
         auto viewportV = Vec3(0, -viewportHeight, 0);
+
+
 
         //Compute the horizontal and vertical pixel delta (Resolution kindof)
         pixelDeltaU = viewportU / imgWidth;

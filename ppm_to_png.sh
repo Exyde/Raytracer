@@ -1,6 +1,8 @@
 cd pngs
-rm *.png
 echo "Deleting olds pngs..."
+rm *.png
+echo "Deleting olds ppms..."
+rm *.ppm
 cd ../renders
 cp *.ppm ../pngs
 echo "Copying ppm to png folder."

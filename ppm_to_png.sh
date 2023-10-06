@@ -10,13 +10,18 @@ echo "Converting..."
 cd ..
 echo "Conversion Done ! :] "
 
-rm preview.md
-touch preview.md
+rm README.md
+touch README.md
 
 files=`ls ./pngs/*.png`
+names=`ls ./renders/*.ppm`
+echo "# Raytracer" >> README.md
+echo " " >> README.md
+echo "Simple raytracer made in C++. Based on the book *"Raytracing in a weekend"*">> README.md
+echo " " >> README.md
+
 for file in $files
 do
-    echo $file
-    echo "![$file]($file)" >> preview.md 
+    echo "![$file]($file)" >> README.md
 done
-echo "Writing preview file done !"
+echo "Writing README.md done !"

@@ -1,8 +1,34 @@
 # Raytracer
- Simple raytracer made in c++. Based on the book "Raytracing in a weeked".
-
-# Previews
-![Weird stuff](./renders/cameraPosZoomed.ppm)
-![World 4D](./renders/world_4D.ppm)
-
-[Preview](./preview.md)
+ 
+Simple raytracer made in C++. Based on the book *Raytracing in a weekend*
+ 
+![./pngs/*-0.png](./pngs/*-0.png)
+![./pngs/*-10.png](./pngs/*-10.png)
+![./pngs/*-11.png](./pngs/*-11.png)
+![./pngs/*-12.png](./pngs/*-12.png)
+![./pngs/*-13.png](./pngs/*-13.png)
+![./pngs/*-14.png](./pngs/*-14.png)
+![./pngs/*-15.png](./pngs/*-15.png)
+![./pngs/*-16.png](./pngs/*-16.png)
+![./pngs/*-17.png](./pngs/*-17.png)
+![./pngs/*-18.png](./pngs/*-18.png)
+![./pngs/*-19.png](./pngs/*-19.png)
+![./pngs/*-1.png](./pngs/*-1.png)
+![./pngs/*-20.png](./pngs/*-20.png)
+![./pngs/*-21.png](./pngs/*-21.png)
+![./pngs/*-22.png](./pngs/*-22.png)
+![./pngs/*-23.png](./pngs/*-23.png)
+![./pngs/*-24.png](./pngs/*-24.png)
+![./pngs/*-25.png](./pngs/*-25.png)
+![./pngs/*-26.png](./pngs/*-26.png)
+![./pngs/*-27.png](./pngs/*-27.png)
+![./pngs/*-28.png](./pngs/*-28.png)
+![./pngs/*-29.png](./pngs/*-29.png)
+![./pngs/*-2.png](./pngs/*-2.png)
+![./pngs/*-3.png](./pngs/*-3.png)
+![./pngs/*-4.png](./pngs/*-4.png)
+![./pngs/*-5.png](./pngs/*-5.png)
+![./pngs/*-6.png](./pngs/*-6.png)
+![./pngs/*-7.png](./pngs/*-7.png)
+![./pngs/*-8.png](./pngs/*-8.png)
+![./pngs/*-9.png](./pngs/*-9.png)

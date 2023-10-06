@@ -17,7 +17,7 @@ public:
 
     double aspectRatio = 1.0;           // Aspect atio
     int imgWidth = 100;                 // Image width
-    int samplesPerPixel = 500;           // Count of samples for each pixel
+    int samplesPerPixel = 100;           // Count of samples for each pixel
     int maxDepth = 10;                  // How many ray bounces
 
     double vFOV = 90;

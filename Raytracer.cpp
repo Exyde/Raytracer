@@ -26,7 +26,7 @@ int main (){
     world.Add(make_shared<Sphere>(Point(0, -100.5, -1), 100, M_Ground));
     world.Add(make_shared<Sphere>(Point(0, 0, -1), 0.5, M_Center));
     world.Add(make_shared<Sphere>(Point(-1, 0, -1), 0.5, M_Right));
-    world.Add(make_shared<Sphere>(Point(1, 0, -1), 0.5, M_Left));
+    world.Add(make_shared<Sphere>(Point(1, 0, -1), 0.5, M_Center));
     world.Add(make_shared<Sphere>(Point(0, 1, -1), 0.5, M_Meh)); //Up
 
     //Hollow sphere trick (negative radius)

@@ -17,6 +17,6 @@ files=`ls ./pngs/*.png`
 for file in $files
 do
     echo $file
-    echo "[$file]($file)" >> preview.md 
+    echo "![$file]($file)" >> preview.md 
 done
 echo "Writing preview file done !"

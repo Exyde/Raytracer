@@ -20,10 +20,11 @@ public:
 
     bool Scatter(const Ray& in, const HitInfo& hit, Color& attenuation, Ray& scattered) const override{
 
+        auto compilerWarningThrower = in; //Just because the compiler is yelling at me because in is not used there.
         auto scatterDirection = hit.normal + RandomOnUnitSphere(); //Dispersed direction
 
         if (scatterDirection.NearZero()){
-            scatterDirection = hit.normal;
+            scatterDirection = hit.normal + compilerWarningThrower.Direction() - compilerWarningThrower.Direction();
         }
 
         scattered = Ray(hit.p, scatterDirection);

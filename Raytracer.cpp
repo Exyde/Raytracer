@@ -10,9 +10,13 @@ int main (){
     Camera cam;
     cam.aspectRatio = 16.0 / 9.0;
     cam.imgWidth = 400;
-    cam.samplesPerPixel = 100; //Anti-aliasing
+    cam.samplesPerPixel = 500; //Anti-aliasing
     cam.maxDepth = 50;
-    cam.vFOV = 90;
+    cam.vFOV = 20;
+
+    cam.lookFrom = Point(-2, -2, 2);
+    cam.lookAt = Point(0, 0, -1);
+    cam.vUp = Vec3(0, 1 , 0);
 
     //Materials
     std::shared_ptr<Lambertian> M_Ground = make_shared<Lambertian>(Color(0.3, 0.1, 0.75));
@@ -33,15 +37,11 @@ int main (){
     world.Add(make_shared<Sphere>(Point(0, -R , -1), R/2, M_Center));
 
 
-/*  
- 
     world.Add(make_shared<Sphere>(Point(0, -100.5, -1), 100, M_Ground));
     world.Add(make_shared<Sphere>(Point(0, 0, -1), 0.5, M_Center));
     world.Add(make_shared<Sphere>(Point(-1, 0, -1), 0.5, M_Right));
     world.Add(make_shared<Sphere>(Point(1, 0, -1), 0.5, M_Center));
-    world.Add(make_shared<Sphere>(Point(0, 1, -1), 0.5, M_Meh)); //Up
-
-*/
+    world.Add(make_shared<Sphere>(Point(0, 1, -1), 0.5, M_Meh));
 
     //Hollow sphere trick (negative radius)
 //    world.Add(make_shared<Sphere>(Point(0, -1, -1), -0.4, M_Center));

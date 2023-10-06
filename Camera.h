@@ -12,14 +12,18 @@ class Camera{
 
 public:
 
-    Camera() : imgHeight(imgWidth), center(Vec3(0)), pixel00Pos(Vec3(0)), pixelDeltaU(1), pixelDeltaV(1) {}
+    Camera() : imgHeight(imgWidth), center(Vec3(0)), pixel00Pos(Vec3(0)), pixelDeltaU(1), pixelDeltaV(1),
+    u(Vec3(0)), v(Vec3(0)), w(Vec3(0)) {}
 
     double aspectRatio = 1.0;           // Aspect atio
     int imgWidth = 100;                 // Image width
-    int samplesPerPixel = 10;           // Count of samples for each pixel
+    int samplesPerPixel = 500;           // Count of samples for each pixel
     int maxDepth = 10;                  // How many ray bounces
 
     double vFOV = 90;
+    Point lookFrom = Point(0, 0, -1);   //The point we're looking from    
+    Point lookAt = Point(0, 0, 0);      //The target look point
+    Vec3 vUp = Vec3(0, 1, 0);      //Camera relative UP
 
     void Render(const Hittable& world){
         Init();
@@ -56,6 +60,8 @@ private:
     Point center;
     Point pixel00Pos;
     Vec3 pixelDeltaU, pixelDeltaV;
+    Vec3 u, v, w; // Camera Basis Vector
+
 
     void Init(){    
         //Compute height, at least 1
@@ -63,9 +69,8 @@ private:
         imgHeight = ( imgHeight < 1  ) ? 1 : imgHeight;
 
         //Camera
-        auto focalLength = 1.0; // Distance between eye position (camera) and the viewport. They are orthogonal.
-        auto cameraCenter = Point(0, 0, 0);
-
+        auto focalLength = (lookFrom - lookAt).Length(); // Distance between eye position (camera) and the viewport. They are orthogonal.
+        auto cameraCenter = lookFrom;
 
         //Virtual viewport - The viewport withint our ray will pass through 
         //FOV
@@ -74,11 +79,14 @@ private:
         auto viewportHeight = 2 * h * focalLength;
         auto viewportWidth = viewportHeight * (static_cast<double>(imgWidth)/ imgHeight); //Since the ratio is an approximation, we recompute it here with reals values.
 
+        //Calculate unit basis vector for camera coordinate frame
+        w = Normalize(lookFrom - lookAt); //To the viewer 
+        u = Normalize(Cross(vUp, w));
+        v = Cross(w, u);
 
         //Kind of UV's to move along the viewport - Moves only on edges ?
-        auto viewportU = Vec3(viewportWidth, 0 , 0); //That's the length, and we might lerp from 0 to length
-        auto viewportV = Vec3(0, -viewportHeight, 0);
-
+        auto viewportU = viewportWidth * u; //Horizontal Edge, left to right
+        auto viewportV = viewportHeight * -v; //Down Vertical Edge
 
 
         //Compute the horizontal and vertical pixel delta (Resolution kindof)
@@ -86,7 +94,7 @@ private:
         pixelDeltaV = viewportV / imgHeight;
 
         //Location of upper left pixel
-        auto viewportUpperLeft = cameraCenter - Vec3(0, 0, focalLength) - viewportU / 2 - viewportV / 2; //Top Left Pos
+        auto viewportUpperLeft = cameraCenter - (focalLength * w) - viewportU /2 - viewportV / 2;
         pixel00Pos = viewportUpperLeft + 0.5 * (pixelDeltaU + pixelDeltaV); //Half of it, we want our pixel centered.
     }
 
